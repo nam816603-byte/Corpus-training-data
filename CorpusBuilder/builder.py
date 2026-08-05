@@ -25,7 +25,13 @@ def clean_text(text):
 
 
 def remove_duplicates(texts):
-    pass
+    seen=set()
+    result=[]
+    for text in texts:
+        if text not in seen:
+            seen.add(text)
+            result.append(text)
+    return result
 
 
 def save_dataset(text):
