@@ -1,11 +1,12 @@
 from pathlib import Path
+import re
 
 from config import RAW_DIR, OUTPUT_DIR, OUTPUT_FILE, ENCODING
 
 
 def load_files():
-    texts = []
-    raw = Path(RAW_DIR)
+    texts=[]
+    raw=Path(RAW_DIR)
     if not raw.exists():
         return texts
     for file in sorted(raw.rglob("*.txt")):
@@ -17,7 +18,10 @@ def load_files():
 
 
 def clean_text(text):
-    pass
+    text=text.replace("\r\n","\n").replace("\r","\n")
+    text=re.sub(r"[ \t]+"," ",text)
+    text=re.sub(r"\n{3,}","\n\n",text)
+    return text.strip()
 
 
 def remove_duplicates(texts):
@@ -31,12 +35,10 @@ def save_dataset(text):
 def main():
     print("CorpusBuilder")
     Path(OUTPUT_DIR).mkdir(parents=True, exist_ok=True)
-    texts = load_files()
-    texts = [clean_text(t) for t in texts]
-    texts = remove_duplicates(texts)
+    texts=[clean_text(t) for t in load_files()]
+    texts=remove_duplicates(texts)
     save_dataset("\n".join(texts))
     print("Done.")
 
-
-if __name__ == "__main__":
+if __name__=="__main__":
     main()
