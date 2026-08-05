@@ -44,10 +44,12 @@ def save_dataset(text):
 
 def main():
     print("CorpusBuilder")
-    Path(OUTPUT_DIR).mkdir(parents=True, exist_ok=True)
-    texts=[clean_text(t) for t in load_files()]
-    texts=remove_duplicates(texts)
+    texts = load_files()
+    print(f"Loaded {len(texts)} file(s).")
+    texts = [clean_text(t) for t in texts]
+    texts = remove_duplicates(texts)
     save_dataset("\n".join(texts))
+    print(f"Saved {len(texts)} document(s).")
     print("Done.")
 
 if __name__=="__main__":
