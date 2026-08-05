@@ -1,39 +1,40 @@
 from pathlib import Path
 
-from config import RAW_DIR, OUTPUT_DIR, OUTPUT_FILE
+from config import RAW_DIR, OUTPUT_DIR, OUTPUT_FILE, ENCODING
 
 
 def load_files():
-    """Load all .txt files from RAW_DIR."""
-    pass
+    texts = []
+    raw = Path(RAW_DIR)
+    if not raw.exists():
+        return texts
+    for file in sorted(raw.rglob("*.txt")):
+        try:
+            texts.append(file.read_text(encoding=ENCODING))
+        except Exception as e:
+            print(f"Skip {file}: {e}")
+    return texts
 
 
 def clean_text(text):
-    """Normalize text."""
     pass
 
 
 def remove_duplicates(texts):
-    """Remove duplicate entries."""
     pass
 
 
 def save_dataset(text):
-    """Save dataset to OUTPUT_DIR."""
     pass
 
 
 def main():
     print("CorpusBuilder")
-
     Path(OUTPUT_DIR).mkdir(parents=True, exist_ok=True)
-
     texts = load_files()
     texts = [clean_text(t) for t in texts]
     texts = remove_duplicates(texts)
-
     save_dataset("\n".join(texts))
-
     print("Done.")
 
 
