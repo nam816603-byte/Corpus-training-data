@@ -35,7 +35,11 @@ def remove_duplicates(texts):
 
 
 def save_dataset(text):
-    pass
+    output=Path(OUTPUT_DIR)
+    output.mkdir(parents=True, exist_ok=True)
+    path=output/OUTPUT_FILE
+    path.write_text(text,encoding=ENCODING)
+    print(f"Saved: {path}")
 
 
 def main():
